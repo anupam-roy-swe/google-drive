@@ -1,19 +1,18 @@
 'use server';
 
+import { getCurrentUser } from '@/lib/actions/user.actions';
 import {
   createAdminClient,
   createSessionClient,
-} from '@/lib/appwrite';
-import { InputFile } from 'node-appwrite/file';
-import { appwriteConfig } from '@/lib/appwrite/config';
-import { ID, Models, Query } from 'node-appwrite';
+} from '@/lib/apwrite';
+import { appWriteConfig } from '@/lib/apwrite/config';
 import {
   constructFileUrl,
   getFileType,
   parseStringify,
 } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
-import { getCurrentUser } from '@/lib/actions/user.actions';
+import { ID, Models, Query } from 'node-appwrite';
 
 const handleError = (error: unknown, message: string) => {
   console.log(error, message);
@@ -32,7 +31,7 @@ export const uploadFile = async ({
     const inputFile = InputFile.fromBuffer(file, file.name);
 
     const bucketFile = await storage.createFile(
-      appwriteConfig.bucketId,
+      appWriteConfig.bucketId,
       ID.unique(),
       inputFile
     );
@@ -51,14 +50,14 @@ export const uploadFile = async ({
 
     const newFile = await databases
       .createDocument(
-        appwriteConfig.databaseId,
-        appwriteConfig.filesCollectionId,
+        appWriteConfig.databaseId,
+        appWriteConfig.filesCollectionId,
         ID.unique(),
         fileDocument
       )
       .catch(async (error: unknown) => {
         await storage.deleteFile(
-          appwriteConfig.bucketId,
+          appWriteConfig.bucketId,
           bucketFile.$id
         );
         handleError(error, 'Failed to create file document');
@@ -124,8 +123,8 @@ export const getFiles = async ({
     );
 
     const files = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.filesCollectionId,
+      appWriteConfig.databaseId,
+      appWriteConfig.filesCollectionId,
       queries
     );
 
@@ -147,8 +146,8 @@ export const renameFile = async ({
   try {
     const newName = `${name}.${extension}`;
     const updatedFile = await databases.updateDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.filesCollectionId,
+      appWriteConfig.databaseId,
+      appWriteConfig.filesCollectionId,
       fileId,
       {
         name: newName,
@@ -171,8 +170,8 @@ export const updateFileUsers = async ({
 
   try {
     const updatedFile = await databases.updateDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.filesCollectionId,
+      appWriteConfig.databaseId,
+      appWriteConfig.filesCollectionId,
       fileId,
       {
         users: emails,
@@ -195,8 +194,8 @@ export const deleteFile = async ({
 
   try {
     const deletedFile = await databases.deleteDocument(
-      appwriteConfig.databaseId,
-      appwriteConfig.filesCollectionId,
+      appWriteConfig.databaseId,
+      appWriteConfig.filesCollectionId,
       fileId
     );
 
@@ -219,8 +218,8 @@ export async function getTotalSpaceUsed() {
     if (!currentUser) throw new Error('User is not authenticated.');
 
     const files = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.filesCollectionId,
+      appWriteConfig.databaseId,
+      appWriteConfig.filesCollectionId,
       [Query.equal('owner', [currentUser.$id])]
     );
 
