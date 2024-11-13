@@ -1,11 +1,11 @@
-import type { Config } from 'tailwindcss';
+import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ['class'],
+  darkMode: ["class"],
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
   	extend: {
@@ -72,7 +72,7 @@ const config: Config = {
   			}
   		},
   		fontFamily: {
-  			poppins: ['var(--font-poppins)']
+  			poppins: ["var(--font-poppins)"]
   		},
   		boxShadow: {
   			'drop-1': '0px 10px 30px 0px rgba(66, 71, 97, 0.1)',
@@ -99,6 +99,6 @@ const config: Config = {
   		}
   	}
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require("tailwindcss-animate")],
 };
 export default config;

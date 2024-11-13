@@ -1,11 +1,6 @@
 /* eslint-disable no-unused-vars */
 
-declare type FileType =
-  | 'document'
-  | 'image'
-  | 'video'
-  | 'audio'
-  | 'other';
+declare type FileType = "document" | "image" | "video" | "audio" | "other";
 
 declare interface ActionType {
   label: string;
@@ -15,9 +10,7 @@ declare interface ActionType {
 
 declare interface SearchParamProps {
   params?: Promise<SegmentParams>;
-  searchParams?: Promise<{
-    [key: string]: string | string[] | undefined;
-  }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 declare interface UploadFileProps {
